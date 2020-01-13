@@ -29,6 +29,12 @@ type Sheet struct {
 	Rows       []Row     `json:"rows"`
 }
 
+type NewSheet struct {
+	Name    string   `json:"name"`
+	Columns []Column `json:"columns"`
+	Rows    []Row    `json:"rows"`
+}
+
 //IDToA will return a string representation of the sheetId for easier usage within the SSClient
 func (s *Sheet) IDToA() string {
 	return strconv.FormatInt(s.ID, 10)
@@ -84,6 +90,14 @@ func (s *Sheet) FindValues(vals []string) (valsNotFound []string) {
 type Column struct {
 	ID      int64    `json:"id"`
 	Index   int      `json:"index"`
+	Title   string   `json:"title"`
+	Type    string   `json:"type"`
+	Primary bool     `json:"primary,omitempty"`
+	Width   int      `json:"width"`
+	Options []string `json:"options,omitempty"`
+}
+
+type NewColumn struct {
 	Title   string   `json:"title"`
 	Type    string   `json:"type"`
 	Primary bool     `json:"primary,omitempty"`

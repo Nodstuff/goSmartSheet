@@ -58,8 +58,8 @@ type RowResponse struct {
 //ResultResponse is the generic result including a returned object
 type ResultResponse struct {
 	Response
-	Result      json.RawMessage   `json:"result"`
-	
+	Result json.RawMessage `json:"result"`
+
 	FailedItems []BulkItemFailure `json:"failedItems,omitempty"`
 }
 
@@ -105,7 +105,7 @@ func (e *ErrorItem) Error() string {
 	return fmt.Sprintf("Error (%v): %s", e.StatusCode, e.String())
 }
 
-//ErrorItemDecode translates the SmartSheet ErrorItem into a Go erorr
+//ErrorItemDecode translates the SmartSheet ErrorItem into a Go error
 func ErrorItemDecode(statusCode int, bodyDec *json.Decoder) error {
 	e := &ErrorItem{}
 	if err := bodyDec.Decode(e); err != nil {
@@ -115,7 +115,7 @@ func ErrorItemDecode(statusCode int, bodyDec *json.Decoder) error {
 	return e
 }
 
-//ErrorItemDecodeFromReader translates the SmartSheet ErrorItem into a Go erorr taking a ReadCloser
+//ErrorItemDecodeFromReader translates the SmartSheet ErrorItem into a Go error taking a ReadCloser
 func ErrorItemDecodeFromReader(statusCode int, body io.ReadCloser) error {
 	bodyDec := json.NewDecoder(body)
 	defer body.Close()

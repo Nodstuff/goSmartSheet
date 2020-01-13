@@ -68,7 +68,7 @@ func (c *CellValue) String() (val string) {
 //Int will return the Integer representation of the underlying value.  This should only be used if the value is known to be an Int
 func (c *CellValue) Int() (val int) {
 	if c.IntVal != nil {
-		val = (*(c.IntVal))
+		val = *(c.IntVal)
 	}
 
 	return
@@ -77,7 +77,7 @@ func (c *CellValue) Int() (val int) {
 //Float will return the Float representation of the underlying value.  This should only be used if the value is known to be an Float.
 func (c *CellValue) Float() (val float64) {
 	if c.FloatVal != nil {
-		val = (*(c.FloatVal))
+		val = *(c.FloatVal)
 	}
 
 	return
@@ -146,6 +146,6 @@ func (c *CellValue) UnmarshalJSON(b []byte) (err error) {
 		c.FloatVal = &f
 	}
 
-	c.Value = json.RawMessage(b) //default to raw message
+	c.Value = b //default to raw message
 	return
 }

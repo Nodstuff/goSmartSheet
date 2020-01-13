@@ -109,21 +109,20 @@ func (c *Client) GetSheet(id, queryFilter string) (s *Sheet, err error) {
 
 //CreateSheet creates the specified sheet returning its id.
 //Sheet is overriden by the new sheet
-func (c *Client) CreateSheet(s *Sheet) (string, error) {
+func (c *Client) CreateSheet(s *Sheet) (*Sheet, error) {
 	path := "sheets/"
 
 	body, err := c.PostObject(path, s)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	newS := &Sheet{}
-	if err = decodeAsResultResponseInto(body, s); err != nil {
-		return "", err
+	if err = decodeAsResultResponseInto(body, newS); err != nil {
+		return nil, err
 	}
 
-	s = newS
-	return s.IDToA(), nil
+	return newS, nil
 }
 
 //CopySheet copies the specified sheetId returning a new shallow sheet object
@@ -294,7 +293,7 @@ func (c *Client) AddRowsToSheet(sheetID string, rowOpt RowPostOptions, rows []Ro
 
 //DeleteRowsFromSheet will delte the specified rowes from the specified sheet
 func (c *Client) DeleteRowsFromSheet(sheetID string, rows []Row) (io.ReadCloser, int, error) {
-	ids := []string{}
+	var ids []string
 	for _, r := range rows {
 		ids = append(ids, strconv.FormatInt(r.ID, 10))
 	}
@@ -308,7 +307,7 @@ func (c *Client) DeleteRowsIdsFromSheet(sheetID string, ids []string) (io.ReadCl
 	return c.Delete(path)
 }
 
-//TODO: need to see sucess response as well... think it also looks like error item
+//TODO: need to see success response as well... think it also looks like error item
 
 //UpdateRowsOnSheet will update the specified rows and data
 func (c *Client) UpdateRowsOnSheet(sheetID string, rows []Row) (io.ReadCloser, error) {
