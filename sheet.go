@@ -30,9 +30,9 @@ type Sheet struct {
 }
 
 type NewSheet struct {
-	Name    string   `json:"name"`
-	Columns []Column `json:"columns"`
-	Rows    []Row    `json:"rows"`
+	Name    string      `json:"name"`
+	Columns []NewColumn `json:"columns"`
+	Rows    []Row       `json:"rows"`
 }
 
 //IDToA will return a string representation of the sheetId for easier usage within the SSClient

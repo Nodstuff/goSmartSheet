@@ -109,7 +109,7 @@ func (c *Client) GetSheet(id, queryFilter string) (s *Sheet, err error) {
 
 //CreateSheet creates the specified sheet returning its id.
 //Sheet is overriden by the new sheet
-func (c *Client) CreateSheet(s *Sheet) (*Sheet, error) {
+func (c *Client) CreateSheet(s *NewSheet) (*Sheet, error) {
 	path := "sheets/"
 
 	body, err := c.PostObject(path, s)
