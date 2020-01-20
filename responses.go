@@ -19,6 +19,22 @@ type PaginatedResponse struct {
 	Data       json.RawMessage `json:"data"`
 }
 
+type ListSheetResponse struct {
+	PageNumber int `json:"pageNumber"`
+	PageSize   int `json:"pageSize"`
+	TotalPages int `json:"totalPages"`
+	TotalCount int `json:"totalCount"`
+	Data       []struct {
+		AccessLevel string `json:"accessLevel"`
+		Id          int    `json:"id"`
+		Name        string `json:"name"`
+		Version     string `json:"version"`
+		Permalink   string `json:"permalink"`
+		CreatedAt   string `json:"createdAt"`
+		ModifiedAt  string `json:"modifiedAt"`
+	} `json:"data"`
+}
+
 /*
 2017/05/22 00:32:09 Status Code: 200
 2017/05/22 00:32:09 {

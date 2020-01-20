@@ -1,6 +1,9 @@
 package goSmartSheet
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func Test_validateURL(t *testing.T) {
 	tests := []struct {
@@ -30,4 +33,28 @@ func Test_validateURL(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestListSheets(t *testing.T) {
+	client, err := GetClient("ku270iszypss44bggb2loaxsu5", "")
+
+	if err != nil {
+		t.Fatal("Error creating client")
+	}
+
+	sheetList, err := client.ListSheets(0)
+
+	if err != nil {
+		t.Fatalf("Error getting sheetList %v", err)
+	}
+
+	fmt.Println(sheetList)
+
+	sheetList, err = client.ListSheets(sheetList.TotalPages)
+
+	if err != nil {
+		t.Fatalf("Error getting sheetList %v", err)
+	}
+
+	fmt.Println(sheetList)
 }

@@ -107,6 +107,36 @@ func (c *Client) GetSheet(id, queryFilter string) (s *Sheet, err error) {
 	return
 }
 
+//GetSheet returns a sheet with the specified Id
+func (c *Client) ListSheets(pageNumber int) (l *ListSheetResponse, err error) {
+	path := "sheets/"
+
+	if pageNumber > 0 {
+		path += "?page=" + strconv.Itoa(pageNumber)
+	}
+
+	body, statusCode, err := c.Get(path)
+	if err != nil {
+		err = errors.Wrapf(err, "Failed to get list of sheets")
+		return
+
+	}
+	defer body.Close()
+
+	dec := json.NewDecoder(body)
+
+	if statusCode == 200 {
+		l = &ListSheetResponse{}
+		if err = dec.Decode(l); err != nil {
+			err = errors.Wrap(err, "Failed to decode into Sheet")
+		}
+	} else {
+		err = ErrorItemDecode(statusCode, dec)
+	}
+
+	return
+}
+
 //CreateSheet creates the specified sheet returning its id.
 //Sheet is overriden by the new sheet
 func (c *Client) CreateSheet(s *NewSheet) (*Sheet, error) {
@@ -258,7 +288,7 @@ func (c *Client) AddRowsToSheet(sheetID string, rowOpt RowPostOptions, rows []Ro
 					sheetCols, err = c.GetColumns(sheetID)
 					colsPopulated = true
 					if err != nil {
-						return nil, errors.Wrapf(err, "Cannot retrieve columns: %v")
+						return nil, errors.Wrapf(err, "Cannot retrieve columns: %v", sheetCols)
 					}
 
 					//perform basic validation
