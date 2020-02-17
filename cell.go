@@ -11,6 +11,7 @@ type Cell struct {
 	Value        *CellValue `json:"value,omitempty"` //TODO: should this be a pointer?
 	DisplayValue string     `json:"displayValue,omitempty"`
 	Format       string     `json:"format,omitempty"`
+	Strict       bool       `json:"strict,omitempty"`
 }
 
 //CellValue represents the possible strongly typed values that could exist in a SS cell
